@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+  <title>V-160HD Audio Mixer</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">V-160HD <span>Audio Mixer</span></div>
+    <div class="status" id="status"><span class="dot"></span><span id="statusText">未接続</span></div>
+    <div class="tools">
+      <label class="seg" title="メーターの取得ポイント">
+        <span>METER</span>
+        <select id="meterPoint">
+          <option value="AFL">POST (AFL)</option>
+          <option value="PFL">PRE (PFL)</option>
+        </select>
+      </label>
+      <button id="editBtn" class="btn" title="チャンネルの割り当て・名前を編集">CH 編集</button>
+      <button id="connBtn" class="btn primary">接続設定</button>
+    </div>
+  </header>
+
+  <div id="banner" class="banner" hidden></div>
+
+  <main class="console">
+    <section class="strips" id="strips"></section>
+    <section class="masters" id="masters"></section>
+  </main>
+
+  <dialog id="connDialog">
+    <form method="dialog" id="connForm">
+      <h2>V-160HD 接続設定</h2>
+      <p class="hint">V-160HD の [MENU] → LAN CONTROL で IP アドレスとネットワークパスワード（4桁）を確認してください。</p>
+      <label>IP アドレス<input id="cfHost" placeholder="192.168.0.100" autocomplete="off" required></label>
+      <label>ポート<input id="cfPort" type="number" value="8023" min="1" max="65535"></label>
+      <label>ネットワークパスワード<input id="cfPassword" type="password" inputmode="numeric" placeholder="変更しない場合は空欄" autocomplete="off"></label>
+      <label class="check"><input id="cfClearPw" type="checkbox"> パスワードを使わない（消去）</label>
+      <div class="actions">
+        <button value="disconnect" class="btn" formnovalidate>切断</button>
+        <span class="spacer"></span>
+        <button value="cancel" class="btn" formnovalidate>キャンセル</button>
+        <button value="connect" class="btn primary">接続</button>
+      </div>
+    </form>
+  </dialog>
+
+  <template id="stripTpl">
+    <div class="strip">
+      <div class="strip-head">
+        <span class="num"></span>
+        <select class="src" title="入力ソース"></select>
+        <input class="name" maxlength="16" placeholder="名前">
+        <div class="name-view"></div>
+      </div>
+      <div class="buttons">
+        <button class="solo" title="SOLO">S</button>
+        <button class="mute" title="MUTE">M</button>
+      </div>
+      <div class="fader-area">
+        <div class="scale"></div>
+        <div class="fader" tabindex="0" role="slider" aria-valuemin="-80" aria-valuemax="10">
+          <div class="track"><div class="fill"></div></div>
+          <div class="cap"></div>
+        </div>
+        <div class="meter"><div class="bar l"><i></i><b></b></div><div class="bar r"><i></i><b></b></div></div>
+      </div>
+      <div class="db" title="ダブルクリックで数値入力">-INF</div>
+    </div>
+  </template>
+
+  <script src="app.js"></script>
+</body>
+</html>
